@@ -16,18 +16,18 @@ module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pas
 module_info = api.app.get_ecosystem_module_info(module_id)
 print("Start app: ", module_info.name)
 
-# optional arguments with default values from modal window before app started
-app_args = module_info.get_arguments()
+print("Help for developers:")
+module_info.arguments_help()
 
-# -> module_info.validate_arguments(args)
-api.app.start(
+params = module_info.get_arguments(target={"key": "slyProjectId", "value": 12489})
+
+# @TODO: return namedtuple
+# @TODO: fix queued
+ppp = api.app.start(
     agent_id=agent_id,
     module_id=module_id,
     workspace_id=workspace_id,
     task_name="custom session name",
-    params=app_args,
+    params=params,
 )
-
-# team_recent_apps = api.app.get_list(team_id)
-# for app_info in team_recent_apps:
-#     print(app_info.name)
+print(ppp)
