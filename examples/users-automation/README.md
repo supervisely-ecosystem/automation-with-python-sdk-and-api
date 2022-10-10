@@ -1,12 +1,12 @@
 # Users automation
 
-[Read this tutorial in developer portal.](#)
+[Read this tutorial in developer portal.](https://developer.supervise.ly/advanced-user-guide/automate-with-python-sdk-and-api/user-automation)
 
 ## Introduction
 
 In this tutorial you will learn how to work with `User` and manage team members using Supervisely SDK and API.
 
-📗 Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api/tree/master/examples/user-automation): source code and demo data.
+📗 Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api/tree/master/examples/users-automation): source code and demo data.
 
 ## How to debug this tutorial
 
