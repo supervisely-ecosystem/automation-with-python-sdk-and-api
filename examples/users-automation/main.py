@@ -15,16 +15,21 @@ USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
 roles = api.role.get_list()
 print(f"Roles: {roles}")
 
-# list all registered users
-users = api.user.get_list()
-for user in users:
-    print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
-
-
 # get UserInfo about yourself
 my_info = api.user.get_my_info()
 print("my login:", my_info.login)
 print("my ID:", my_info.id)
+
+
+##############################################
+# All methods below require admin permission #
+##############################################
+
+
+# list all registered users
+users = api.user.get_list()
+for user in users:
+    print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
 
 
 # get UserInfo by ID
@@ -70,7 +75,7 @@ if api.user.get_team_role(user.id, team.id) is None:
     
 # list all team users with corresponding roles
 team = api.team.get_info_by_id(TEAM_ID)
-members = api.user.get_team_members(team.id)
+members = api.user.get_team_members(team.id) 
 print(f"Team members: {members}")
 
 # change user role in team
