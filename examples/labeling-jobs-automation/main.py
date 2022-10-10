@@ -19,7 +19,7 @@ prepare_project(api=api, id=PROJECT_ID)
 
 # Step 1. Create and add annotators to the team, before creating Labeling Job
 
-# create accounts for annotators with restrictions
+# create accounts for annotators with restrictions (admin permission required)
 labeler_1 = api.user.get_info_by_login(login='labeler_1')
 if labeler_1 is None:
     labeler_1 = api.user.create(login='labeler_1', password='11111abc', is_restricted=True)
@@ -28,13 +28,13 @@ labeler_2 = api.user.get_info_by_login(login='labeler_2')
 if labeler_2 is None:
     labeler_2 = api.user.create(login='labeler_2', password='22222abc', is_restricted=True)
 
-# labelers will be able to login only after being added to at least one team
+# labelers will be able to login only after being added to at least one team (admin permission required)
 if api.user.get_team_role(labeler_1.id, TEAM_ID) is None:
     api.user.add_to_team(labeler_1.id, TEAM_ID, api.role.DefaultRole.ANNOTATOR)
 if api.user.get_team_role(labeler_2.id, TEAM_ID) is None:
     api.user.add_to_team(labeler_2.id, TEAM_ID, api.role.DefaultRole.ANNOTATOR)
 
-# # Step 2. Define project and datasets for labeling job
+# Step 2. Define project and datasets for labeling job
 project_meta_json = api.project.get_meta(PROJECT_ID)
 project_meta = sly.ProjectMeta.from_json(project_meta_json)
 print(project_meta)
@@ -73,7 +73,7 @@ print(jobs)
 
 # Labeling Jobs Filtering (filters [created_by_id, assigned_to_id, project_id, dataset_id] can be used in various combinations)
 # Get all labeling jobs that were created by yourself
-user = api.user.get_info_by_login(USER_LOGIN)
+user = api.user.get_info_by_login(USER_LOGIN) # getting UserInfo by login requires admin permission
 jobs = api.labeling_job.get_list(TEAM_ID, created_by_id=user.id)
 print(jobs)
 

@@ -114,7 +114,9 @@ prepare_project(api=api, id=PROJECT_ID)
 
 ![Team members before adding annotators](https://user-images.githubusercontent.com/48913536/194878748-c0710394-d821-407a-9379-42999135c5f5.png)
 
-Create accounts for annotators with restrictions.
+Create accounts for annotators with restrictions. 
+
+**Note:** Creating users requires admin permission.
 
 ```python
 labeler_1 = api.user.get_info_by_login(login='labeler_1')
@@ -127,6 +129,8 @@ if labeler_2 is None:
 ```
 
 Labelers will be able to login only after being added to at least one team
+
+**Note:** Adding users to the Team requires admin permission.
 
 ```python
 if api.user.get_team_role(labeler_1.id, TEAM_ID) is None:
@@ -251,7 +255,6 @@ api.labeling_job.stop(created_jobs[0].id)
 ```
 
 Create labeling job for labeler 2, and assign class kiwi to label, and also tags "size" and "origin", with objects and tags limit.
-
 
 ```python
 created_jobs = api.labeling_job.create(
@@ -405,6 +408,8 @@ List of available filters:
 **Note:** filters can be used in various combinations
 
 Get all labeling jobs that were created by user 'my_username'
+
+**Note:** Getting UserInfo by login requires admin permission.
 
 ```python
 user = api.user.get_info_by_login(USER_LOGIN)
