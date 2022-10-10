@@ -85,7 +85,7 @@ api = sly.Api()
 TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
 PROJECT_ID = int(os.environ["CONTEXT_PROJECTID"])
 USER_ID = int(os.environ["CONTEXT_USERID"])
-USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
+USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
 ```
 
 ### Prepare project for Labeling Job

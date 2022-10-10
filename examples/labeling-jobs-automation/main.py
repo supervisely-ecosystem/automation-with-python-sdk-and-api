@@ -9,16 +9,10 @@ load_dotenv(os.path.expanduser("~/supervisely.env"))
 load_dotenv("local.env")
 api = sly.Api()
 
-# TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
-# PROJECT_ID = int(os.environ["CONTEXT_PROJECTID"])
-# USER_ID = int(os.environ["CONTEXT_USERID"])
-# USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
-
-
-TEAM_ID = 8
-PROJECT_ID = 13487
-USER_ID = 7
-USER_LOGIN = "cxnt"
+TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
+PROJECT_ID = int(os.environ["CONTEXT_PROJECTID"])
+USER_ID = int(os.environ["CONTEXT_USERID"])
+USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
 
 # populate project meta with classes and tag metas
 prepare_project(api=api, id=PROJECT_ID)
