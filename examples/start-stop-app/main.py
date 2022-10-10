@@ -59,7 +59,7 @@ try:
 
 except sly.WaitingTimeExceeded as e:
     print(e)
-    # we don't want to wait more, let's stop our long-lived "zombie" task
+    # we don't want to wait more, let's stop our long-lived or "zombie" task
     api.app.stop(session.task_id)
 except sly.TaskFinishedWithError as e:
     print(e)
