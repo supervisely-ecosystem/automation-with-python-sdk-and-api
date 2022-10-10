@@ -41,19 +41,19 @@ print(session)
 
 try:
     # wait until task end or specific task status
-    # api.app.wait(session.task_id, target_status=api.task.Status.FINISHED)
+    api.app.wait(session.task_id, target_status=api.task.Status.FINISHED)
 
     # or infinite wait until task end
     # api.task.wait(session.task_id)
 
     # it is also possible to limit maximum waiting time
     # in the example below maximum waiting time will be 20*3=60 seconds
-    api.app.wait(
-        session.task_id,
-        target_status=api.task.Status.FINISHED,
-        attempts=20,
-        attempt_delay_sec=3,
-    )
+    # api.app.wait(
+    #     session.task_id,
+    #     target_status=api.task.Status.FINISHED,
+    #     attempts=20,
+    #     attempt_delay_sec=3,
+    # )
 
 except sly.WaitingTimeExceeded as e:
     print(e)
