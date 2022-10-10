@@ -41,7 +41,11 @@ print("App is started, task_id = ", session.task_id)
 print(session)
 
 try:
+    # wait until task end or specific task status
     api.task.wait(session.task_id, target_status=api.task.Status.FINISHED)
+
+    # or infinite wait
+    # api.task.wait(session.task_id)
 
     # it is also possible to limit execution time
     # in the example below maximum waiting time will be 5*3=15 seconds
