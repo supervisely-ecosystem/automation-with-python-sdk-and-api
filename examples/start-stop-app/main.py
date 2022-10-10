@@ -29,14 +29,13 @@ print(json.dumps(params, indent=4))
 params["trainSplitCoef"] = 0.7
 params["pascalContourThickness"] = 2
 
-# TODO: fix queued
-# TODO: Check validation
 session = api.app.start(
     agent_id=agent_id,
     module_id=module_id,
     workspace_id=workspace_id,
     task_name="custom session name",
     params=params,
+    app_version="v1.4.6",
 )
 print("App is started, task_id = ", session.task_id)
 print(session)
