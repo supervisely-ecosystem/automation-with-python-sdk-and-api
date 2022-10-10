@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 import supervisely as sly
 
@@ -16,13 +17,19 @@ module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pas
 module_info = api.app.get_ecosystem_module_info(module_id)
 print("Start app: ", module_info.name)
 
-print("Help for developers:")
+print("Help for developers with the list of all available parameters:")
 module_info.arguments_help()
 
-# validation on server
 params = module_info.get_arguments(images_project=12489)
+print("App input arguments with predefined default values:")
+print(json.dumps(params, indent=4))
+
+# Let's modify some optional input arguments:
+params["trainSplitCoef"] = 0.7
+params["pascalContourThickness"] = 2
 
 # @TODO: fix queued
+# Check validation
 session = api.app.start(
     agent_id=agent_id,
     module_id=module_id,
