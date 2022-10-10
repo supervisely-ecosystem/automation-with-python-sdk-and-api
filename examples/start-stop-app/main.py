@@ -22,13 +22,13 @@ module_info.arguments_help()
 # validation on server
 params = module_info.get_arguments(images_project=12489)
 
-# @TODO: return namedtuple
 # @TODO: fix queued
-ppp = api.app.start(
+session = api.app.start(
     agent_id=agent_id,
     module_id=module_id,
     workspace_id=workspace_id,
     task_name="custom session name",
     params=params,
 )
-print(ppp)
+print("App is started, task_id = ", session.task_id)
+print(session)
