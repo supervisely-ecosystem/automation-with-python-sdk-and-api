@@ -95,6 +95,23 @@ Output:
 ]
 ```
 
+### Get UserInfo about yourself
+
+```python
+my_info = api.user.get_my_info()
+print("my login:", my_info.login)
+print("my ID:", my_info.id)
+```
+
+Output:
+
+```
+my login: my_username
+my ID: 100
+```
+
+## Methods that require admin permisssion
+
 ### List all registered users
 
 Print all registered users on Supervisely instance.
@@ -115,21 +132,6 @@ Id: 2     Login: supervisely               logins_count: 55
 ...  
 Id: 99    Login: alex                      logins_count: 0    
 Id: 100   Login: my_username               logins_count: 3
-```
-
-### Get UserInfo about yourself
-
-```python
-my_info = api.user.get_my_info()
-print("my login:", my_info.login)
-print("my ID:", my_info.id)
-```
-
-Output:
-
-```
-my login: my_username
-my ID: 100
 ```
 
 ### Get UserInfo by ID
