@@ -35,7 +35,6 @@ session = api.app.start(
     workspace_id=workspace_id,
     task_name="custom session name",
     params=params,
-    app_version="v1.4.6",
 )
 print("App is started, task_id = ", session.task_id)
 print(session)
