@@ -28,8 +28,19 @@ code -r .
 
 **Step 4.** change ✅ IDs ✅ in `local.env` file by copying the IDs from Supervisely instance.
 
+Copy your TEAM ID from context menu of the team.
+
+![Team ID](https://user-images.githubusercontent.com/48913536/194830109-e81989e9-6b23-473f-bd94-4ff1e4630447.png)
+
 ```python
 CONTEXT_TEAMID=8                 # ⬅️ change it
+```
+
+You can find your user ID and login at `Start` -> `Team members` page
+
+![User ID and Login](https://user-images.githubusercontent.com/48913536/194830099-c3cc67d5-fe55-4cf7-b33e-9b1c7e0addf4.png)
+
+```python
 CONTEXT_USERID=7                 # ⬅️ change it
 CONTEXT_USERLOGIN="my_username"  # ⬅️ change it
 ```
@@ -88,35 +99,17 @@ users = api.user.get_list()
 print('Total number of users: ', len(users))
 for user in users:
     print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
-# Total number of users:  22
+# Total number of users:  100
 # Id: 1     Login: admin                     logins_count: 88   
-# Id: 2     Login: supervisely               logins_count: 0    
-# Id: 3     Login: andrew                    logins_count: 18   
-# Id: 4     Login: max                       logins_count: 7    
-# Id: 5     Login: antonc                    logins_count: 24   
-# Id: 6     Login: umar                      logins_count: 9    
-# Id: 7     Login: test1                     logins_count: 2    
-# Id: 8     Login: denis                     logins_count: 1    
-# Id: 9     Login: denis2                    logins_count: 0    
-# Id: 10    Login: test2                     logins_count: 1    
-# Id: 11    Login: test3                     logins_count: 2    
-# Id: 12    Login: umar1                     logins_count: 2    
-# Id: 13    Login: anna                      logins_count: 1    
-# Id: 14    Login: demo_user                 logins_count: 0    
-# Id: 20    Login: demo_user1                logins_count: 0    
-# Id: 22    Login: demo_user2                logins_count: 0    
-# Id: 24    Login: demo_user3                logins_count: 0    
-# Id: 25    Login: demo_user4                logins_count: 0    
-# Id: 29    Login: labeler_01                logins_count: 0    
-# Id: 30    Login: labeler_02                logins_count: 0    
-# Id: 31    Login: labeler_03                logins_count: 0    
-# Id: 32    Login: alex                      logins_count: 0    
-# Id: 100    Login: my_username                      logins_count: 3    
+# Id: 2     Login: supervisely               logins_count: 55    
+# ...  
+# Id: 99    Login: alex                      logins_count: 0    
+# Id: 100   Login: my_username               logins_count: 3
 ```
 
 ### Get UserInfo by ID
 
-Get general information about user by user id.
+Get general information about user by ID.
 
 ```python
 user_info = api.user.get_info_by_id(USER_ID)
@@ -136,7 +129,7 @@ print(user_info)
 
 ### Get UserInfo by login
 
-Get general information about user by username.
+Get general information about user by name.
 
 ```python
 user_info = api.user.get_info_by_login(USER_LOGIN)
@@ -169,6 +162,7 @@ def print_user_teams(login):
 print_user_teams(USER_LOGIN)
 # Teams of user 'my_username':
 # [team_id=7] team_x                    [role_id=1] admin
+# [team_id=5] my_team                   [role_id=1] admin
 # [team_id=3] jupyter_tutorials         [role_id=1] admin
 ```
 
@@ -230,7 +224,7 @@ if api.user.get_team_role(user.id, team.id) is None:
     api.user.add_to_team(user.id, team.id, api.role.DefaultRole.ANNOTATOR) 
 # Teams of user 'demo_user451':
 # [team_id=22] demo_user451              [role_id=1] admin
-# [team_id=4] max                       [role_id=3] annotator
+# [team_id=4] my_team                    [role_id=3] annotator
 ```
 
 ### List all team users with corresponding roles
@@ -278,8 +272,8 @@ team = api.team.get_info_by_id(TEAM_ID)
 api.user.change_team_role(user.id, team.id, api.role.DefaultRole.VIEWER)
 print_user_teams('demo_user_451')
 # Teams of user 'demo_user451':
-# [team_id=22] demo_user451              [role_id=1] admin
-# [team_id=4] max                       [role_id=4] viewer
+# [team_id=22] demo_user451              [role_id=4] viewer
+# [team_id=4] max                        [role_id=1] admin
 ```
 
 ### Remove user from team
@@ -290,5 +284,5 @@ user = api.user.get_info_by_login('demo_user_451')
 api.user.remove_from_team(user.id, team.id)
 print_user_teams('demo_user_451')
 # Teams of user 'demo_user451':
-# [team_id=22] demo_user451              [role_id=1] admin
+# [team_id=22] demo_user451              [role_id=4] viewer
 ```
