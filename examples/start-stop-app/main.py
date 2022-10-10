@@ -32,3 +32,22 @@ session = api.app.start(
 )
 print("App is started, task_id = ", session.task_id)
 print(session)
+
+try:
+    api.task.wait(session.task_id, target_status=api.task.Status.FINISHED)
+
+    # it is also possible to limit execution time
+    # in the example below maximum waiting time will be 5*3=15 seconds
+    # api.task.wait(
+    #     session.task_id,
+    #     target_status=api.task.Status.FINISHED,
+    #     wait_attempts=5,
+    #     wait_attempt_timeout_sec=3,
+    # )
+
+except sly.WaitingTimeExceeded as e:
+    print(e)
+except sly.TaskFinishedWithError as e:
+    print(e)
+
+print("Task status: ", api.task.get_status(session.task_id))
