@@ -30,7 +30,7 @@ code -r .
 
 * Copy your TEAM ID from context menu of the team.
 
-    ![Team ID](https://user-images.githubusercontent.com/48913536/194830109-e81989e9-6b23-473f-bd94-4ff1e4630447.png)
+    ![Team ID](https://user-images.githubusercontent.com/48913536/194893071-69757371-d15c-439b-89c0-9ad7d3c51118.png)
 
     ```python
     CONTEXT_TEAMID=8                 # ⬅️ change it
@@ -38,7 +38,7 @@ code -r .
 
 * You can find your user ID and login at `Start` -> `Team members` page
 
-    ![User ID and Login](https://user-images.githubusercontent.com/48913536/194830099-c3cc67d5-fe55-4cf7-b33e-9b1c7e0addf4.png)
+    ![User ID and Login](https://user-images.githubusercontent.com/48913536/194893088-59f87b0d-cba9-4bd2-9a1b-2b2227fd0efb.png)
 
     ```python
     CONTEXT_USERID=7                 # ⬅️ change it
