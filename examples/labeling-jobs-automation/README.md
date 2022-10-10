@@ -4,8 +4,7 @@
 
 ## Introduction
 
-In this tutorial you will learn how to manage `Labeling Jobs` using Supervisely SDK and API. 
-Please, read tutorial about working with `User` before proceeding.
+In this tutorial you will learn how to manage `Labeling Jobs` using Supervisely SDK and API.
 
 📗 Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api/tree/master/examples/user-automation): source code and demo data.
 
@@ -92,7 +91,7 @@ USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
 ### Prepare project for Labeling Job
 
 Function will populate project meta with classes: "kiwi", "lemon",
- and tag metas: "size", "origin".
+ and tags: "size", "origin".
 
 ```python
 prepare_project(api=api, id=PROJECT_ID)
@@ -230,7 +229,7 @@ print(created_jobs)
 # ]
 ```
 
-Stop Labeling Job, job will become unavailable for labeler
+You can stop Labeling Job if you need. Job will become unavailable for labeler.
 
 ```python
 api.labeling_job.stop(created_jobs[0].id)
@@ -501,7 +500,7 @@ print(jobs)
 # ]
 ```
 
-### Get all active labeling jobs in a team
+Get all active labeling jobs in a team
 
 ```python
 jobs = api.labeling_job.get_list(TEAM_ID)
