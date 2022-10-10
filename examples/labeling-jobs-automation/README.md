@@ -29,12 +29,34 @@ code -r .
 
 **Step 4.** change ✅ IDs ✅ in `local.env` file by copying the IDs from Supervisely instance.
 
-```python
-CONTEXT_TEAMID=8                 # ⬅️ change it
-CONTEXT_PROJECTID=5555           # ⬅️ change it
-CONTEXT_USERID=7                 # ⬅️ change it
-CONTEXT_USERLOGIN="my_username"  # ⬅️ change it
-```
+* Change Team ID in `local.env` file by copying the ID from the context menu of the team.
+
+    ![Get Team ID](https://user-images.githubusercontent.com/48913536/194878720-c7754e91-1475-493c-9cdd-19a9e4cc8713.png)
+
+    ```python
+    CONTEXT_TEAMID=8                 # ⬅️ change it
+    ```
+
+* Get **[Lemons (Test)](https://ecosystem.supervise.ly/projects/lemons-test)** project from ecosystem. Lemons (Test) is an example project with 6 images of lemons and kiwi fruits.
+
+    ![Get project from Ecosystem](https://user-images.githubusercontent.com/48913536/194888410-0e505e58-8221-43c0-9d1c-2b86a9eeb922.png)
+
+    Change project id in `local.env` file by copying the ID from the context menu of the project.
+
+    ![Get Project ID](https://user-images.githubusercontent.com/48913536/194878729-9fff5bac-f470-4eee-8149-6f2e077aa48c.png)
+
+    ```python
+    CONTEXT_PROJECTID=5555                 # ⬅️ change it
+    ```
+
+* Change User ID and user login in `local.env` to your own from Team members page.
+
+    ![Get User ID and user login](https://user-images.githubusercontent.com/48913536/194878737-5d1f6650-99f2-4e87-b731-58f8027ae1b7.png)
+
+    ```python
+    CONTEXT_USERID=7                 # ⬅️ change it
+    CONTEXT_USERLOGIN="my_username"  # ⬅️ change it
+    ```
 
 **Step 5.** Start debugging `examples/labeling-jobs-automation/main.py`&#x20;
 
@@ -67,9 +89,31 @@ USER_ID = int(os.environ["CONTEXT_USERID"])
 USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
 ```
 
+### Prepare project for Labeling Job
+
+Function will populate project meta with classes: "kiwi", "lemon",
+ and tag metas: "size", "origin".
+
+```python
+prepare_project(api=api, id=PROJECT_ID)
+```
+
+<table>
+  <tr style="width: 100%">
+    <td>
+       <img src="https://user-images.githubusercontent.com/48913536/194885404-5215aef1-dccc-45ec-8226-f4fbf40b1eba.png" width=500px>
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/48913536/194885409-f60e7135-cce3-4413-b636-17689deb76ab.png" width=550px> 
+    </td>
+  </tr>
+</table>
+
 ## Labeling jobs
 
 ### Step 1. Create and add annotators to the team, before creating Labeling Job
+
+![Team members before adding annotators](https://user-images.githubusercontent.com/48913536/194878748-c0710394-d821-407a-9379-42999135c5f5.png)
 
 Create accounts for annotators with restrictions.
 
@@ -91,6 +135,8 @@ if api.user.get_team_role(labeler_1.id, TEAM_ID) is None:
 if api.user.get_team_role(labeler_2.id, TEAM_ID) is None:
     api.user.add_to_team(labeler_2.id, TEAM_ID, api.role.DefaultRole.ANNOTATOR)
 ```
+
+![Team members after adding annotators](https://user-images.githubusercontent.com/48913536/194878766-f96f3ae0-cfc5-41b0-b973-e23e40338399.png)
 
 ### Step 2. Define project and datasets for labeling job
 
@@ -121,50 +167,54 @@ print(datasets)
 # [
 #   DatasetInfo(
 #     id=10555, 
-#     name='dataset_01',
+#     name='ds1',
 #     description='', 
 #     size='1277440',
 #     project_id=5555,
 #     images_count=6, 
-#     created_at='2019-07-18T15:39:57.377Z',
-#     updated_at='2019-07-18T15:39:57.377Z'
+#     created_at='2022-10-18T15:39:57.377Z',
+#     updated_at='2022-10-18T15:39:57.377Z'
 #   )
 # ]
 ```
 
-Labeler 1 will label lemons on the first dataset
+### Step 3. Create Labeling Jobs
+
+![Labeling Jobs](https://user-images.githubusercontent.com/48913536/194878773-a898f358-d224-4fda-82af-a52dab4a3ad0.png)
+
+Create labeling job for labeler 1, and assign class lemon to label.
 
 ```python
 created_jobs = api.labeling_job.create(name='labeler1_lemons_task',
                                        dataset_id=datasets[0].id,
                                        user_ids=[labeler_1.id],
-                                       readme='annotation manual for lemons in markdown format here (optional)',
+                                       readme='annotation manual for fruits in markdown format here (optional)',
                                        description='short description is here (optional)',
                                        classes_to_label=["lemon"])
 print(created_jobs)
 # [
 #   LabelingJobInfo(
-#       id=37, 
-#       name='labeler1_cars_task (#18)', 
-#       readme='annotation manual for cars in markdown format here (optional)',
+#       id=1, 
+#       name='labeler1_lemons_task', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
 #       description='short description is here (optional)', 
-#       team_id=4,
-#       workspace_id=7,
-#       workspace_name='First Workspace', 
-#       project_id=511,
-#       project_name='tutorial_project', 
-#       dataset_id=1585,
-#       dataset_name='dataset_01', 
-#       created_by_id=4,
-#       created_by_login='max', 
-#       assigned_to_id=29, 
-#       assigned_to_login='labeler_01',
-#       created_at='2019-08-05T08:42:30.588Z', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=7,
+#       created_by_login='my_username', 
+#       assigned_to_id=101, 
+#       assigned_to_login='labeler_1',
+#       created_at='2022-10-05T08:42:30.588Z', 
 #       started_at=None, 
 #       finished_at=None,
 #       status='pending',
 #       disabled=False, 
-#       images_count=3, 
+#       images_count=6, 
 #       finished_images_count=0, 
 #       rejected_images_count=0,
 #       accepted_images_count=0,
@@ -186,44 +236,90 @@ Stop Labeling Job, job will become unavailable for labeler
 api.labeling_job.stop(created_jobs[0].id)
 ```
 
-Labeler2 will label cars on the first dataset
+Create labeling job for labeler 2, and assign class kiwi to label, and also tags "size" and "origin", with objects and tags limit.
+
 
 ```python
-created_jobs = api.labeling_job.createcreated_jobs = api.labeling_job.create(name='labeler2_kiwi_task_with_complex_settings',
-                                       dataset_id=datasets[0].id,
-                                       user_ids=[labeler_2.id],
-                                       readme='annotation manual for kiwi in markdown format here (optional)',
-                                       description='short description is here (optional)',
-                                       classes_to_label=["kiwi"],
-                                       objects_limit_per_image=10,
-                                       tags_to_label=["size", "origin"],
-                                       tags_limit_per_image=20,
-                                       exclude_images_with_tags=["situated"]
-                                       )
+created_jobs = api.labeling_job.create(
+                                name='labeler2_kiwi_task_with_complex_settings',
+                                dataset_id=datasets[0].id,
+                                user_ids=[labeler_2.id],
+                                readme='annotation manual for fruits in markdown format here (optional)',
+                                description='short description is here (optional)',
+                                classes_to_label=["kiwi"],
+                                objects_limit_per_image=10,
+                                tags_to_label=["size", "origin"],
+                                tags_limit_per_image=20,
+                                )
 print(created_jobs)
 # [
 #   LabelingJobInfo(
-#       id=37, 
-#       name='labeler1_cars_task (#18)', 
-#       readme='annotation manual for cars in markdown format here (optional)',
+#       id=2, 
+#       name='labeler2_kiwi_task_with_complex_settings', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
 #       description='short description is here (optional)', 
-#       team_id=4,
-#       workspace_id=7,
-#       workspace_name='First Workspace', 
-#       project_id=511,
-#       project_name='tutorial_project', 
-#       dataset_id=1585,
-#       dataset_name='dataset_01', 
-#       created_by_id=4,
-#       created_by_login='max', 
-#       assigned_to_id=29, 
-#       assigned_to_login='labeler_01',
-#       created_at='2019-08-05T08:42:30.588Z', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=100,
+#       created_by_login='my_username', 
+#       assigned_to_id=102, 
+#       assigned_to_login='labeler_2',
+#       created_at='2022-10-05T08:42:30.588Z', 
 #       started_at=None, 
 #       finished_at=None,
 #       status='pending',
 #       disabled=False, 
-#       images_count=3, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=["kiwi"],
+#       tags_to_label=["size", "origin"], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=10, 
+#       tags_limit_per_image=20,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   )
+# ]
+```
+
+![Labeling Jobs](https://user-images.githubusercontent.com/48913536/194878780-51b08a1d-3b3e-44a3-817b-c52b84ab4ddd.png)
+
+Get all labeling jobs in a team
+
+```python
+jobs = api.labeling_job.get_list(TEAM_ID)
+print(jobs)
+# [
+#   LabelingJobInfo(
+#       id=1, 
+#       name='labeler1_lemons_task', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=7,
+#       created_by_login='my_username', 
+#       assigned_to_id=101, 
+#       assigned_to_login='labeler_1',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
 #       finished_images_count=0, 
 #       rejected_images_count=0,
 #       accepted_images_count=0,
@@ -235,50 +331,251 @@ print(created_jobs)
 #       filter_images_by_tags=[], 
 #       include_images_with_tags=[],
 #       exclude_images_with_tags=[]
+#   ),
+#   LabelingJobInfo(
+#       id=2, 
+#       name='labeler2_kiwi_task_with_complex_settings', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=100,
+#       created_by_login='my_username', 
+#       assigned_to_id=102, 
+#       assigned_to_login='labeler_2',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=["kiwi"],
+#       tags_to_label=["size", "origin"], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=10, 
+#       tags_limit_per_image=20,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
 #   )
 # ]
 ```
 
-Get all labeling jobs in a team
+### Labeling Jobs filtering
 
-```python
-jobs = api.labeling_job.get_list(TEAM_ID)
-print(jobs)
-# [LabelingJobInfo(id=37, name='labeler1_cars_task (#18)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=29, assigned_to_login='labeler_01', created_at='2019-08-05T08:42:30.588Z', started_at=None, finished_at=None, status='stopped', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=None, tags_limit_per_image=None, filter_images_by_tags=[], include_images_with_tags=[], exclude_images_with_tags=[]),
-#  LabelingJobInfo(id=38, name='labeler2_task_with_complex_settings (#9)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=30, assigned_to_login='labeler_02', created_at='2019-08-05T08:42:36.092Z', started_at=None, finished_at=None, status='pending', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=2, tags_limit_per_image=5, filter_images_by_tags=[{'id': 4174, 'positive': False, 'title': 'situated'}], include_images_with_tags=[], exclude_images_with_tags=['situated'])]
-```
+List of available filters:
 
-Labeling Jobs Filtering (filters [created_by_id, assigned_to_id, project_id, dataset_id] can be used in various combinations)
-Get all labeling that were created by user 'max'
+* created_by_id
+* assigned_to_id
+* project_id
+* dataset_id
+
+**Note:** filters can be used in various combinations
+
+Get all labeling jobs that were created by user 'my_username'
 
 ```python
 user = api.user.get_info_by_login(USER_LOGIN)
 jobs = api.labeling_job.get_list(TEAM_ID, created_by_id=user.id)
 print(jobs)
-# [LabelingJobInfo(id=37, name='labeler1_cars_task (#18)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=29, assigned_to_login='labeler_01', created_at='2019-08-05T08:42:30.588Z', started_at=None, finished_at=None, status='stopped', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=None, tags_limit_per_image=None, filter_images_by_tags=[], include_images_with_tags=[], exclude_images_with_tags=[]),
-#  LabelingJobInfo(id=38, name='labeler2_task_with_complex_settings (#9)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=30, assigned_to_login='labeler_02', created_at='2019-08-05T08:42:36.092Z', started_at=None, finished_at=None, status='pending', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=2, tags_limit_per_image=5, filter_images_by_tags=[{'id': 4174, 'positive': False, 'title': 'situated'}], include_images_with_tags=[], exclude_images_with_tags=['situated'])]
+# [
+#   LabelingJobInfo(
+#       id=1, 
+#       name='labeler1_lemons_task', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=7,
+#       created_by_login='my_username', 
+#       assigned_to_id=101, 
+#       assigned_to_login='labeler_1',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=[],
+#       tags_to_label=[], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=None, 
+#       tags_limit_per_image=None,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   ),
+#   LabelingJobInfo(
+#       id=2, 
+#       name='labeler2_kiwi_task_with_complex_settings', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=100,
+#       created_by_login='my_username', 
+#       assigned_to_id=102, 
+#       assigned_to_login='labeler_2',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=["kiwi"],
+#       tags_to_label=["size", "origin"], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=10, 
+#       tags_limit_per_image=20,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   )
+# ]
 ```
 
-Get all labeling jobs that were created by yourself and were assigned to labeler 2
+Get all labeling jobs that were created by user "my_username" and were assigned to labeler 2
 
 ```python
 jobs = api.labeling_job.get_list(TEAM_ID, created_by_id=user.id, assigned_to_id=labeler_2.id)
 print(jobs)
-# [LabelingJobInfo(id=38, name='labeler2_task_with_complex_settings (#9)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=30, assigned_to_login='labeler_02', created_at='2019-08-05T08:42:36.092Z', started_at=None, finished_at=None, status='pending', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=2, tags_limit_per_image=5, filter_images_by_tags=[{'id': 4174, 'positive': False, 'title': 'situated'}], include_images_with_tags=[], exclude_images_with_tags=['situated'])]
+# [
+#   LabelingJobInfo(
+#       id=2, 
+#       name='labeler2_kiwi_task_with_complex_settings', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=100,
+#       created_by_login='my_username', 
+#       assigned_to_id=102, 
+#       assigned_to_login='labeler_2',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=["kiwi"],
+#       tags_to_label=["size", "origin"], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=10, 
+#       tags_limit_per_image=20,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   )
+# ]
 ```
 
-Archive Labeling Job
-
-```python
-api.labeling_job.archive(jobs[0].id)
-```
-
-Get all active labeling jobs in a team
+### Get all active labeling jobs in a team
 
 ```python
 jobs = api.labeling_job.get_list(TEAM_ID)
 print(jobs)
-# [LabelingJobInfo(id=37, name='labeler1_cars_task (#18)', readme='annotation manual for cars in markdown format here (optional)', description='short description is here (optional)', team_id=4, workspace_id=7, workspace_name='First Workspace', project_id=511, project_name='tutorial_project', dataset_id=1585, dataset_name='dataset_01', created_by_id=4, created_by_login='max', assigned_to_id=29, assigned_to_login='labeler_01', created_at='2019-08-05T08:42:30.588Z', started_at=None, finished_at=None, status='stopped', disabled=False, images_count=3, finished_images_count=0, rejected_images_count=0, accepted_images_count=0, classes_to_label=[], tags_to_label=[], images_range=(None, None), objects_limit_per_image=None, tags_limit_per_image=None, filter_images_by_tags=[], include_images_with_tags=[], exclude_images_with_tags=[])]
+# [
+#   LabelingJobInfo(
+#       id=1, 
+#       name='labeler1_lemons_task', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=7,
+#       created_by_login='my_username', 
+#       assigned_to_id=101, 
+#       assigned_to_login='labeler_1',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=[],
+#       tags_to_label=[], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=None, 
+#       tags_limit_per_image=None,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   ),
+#   LabelingJobInfo(
+#       id=2, 
+#       name='labeler2_kiwi_task_with_complex_settings', 
+#       readme='annotation manual for fruits in markdown format here (optional)',
+#       description='short description is here (optional)', 
+#       team_id=8,
+#       workspace_id=349,
+#       workspace_name='Testing Workspace', 
+#       project_id=5555,
+#       project_name='Lemons (Test)', 
+#       dataset_id=10555,
+#       dataset_name='ds1', 
+#       created_by_id=100,
+#       created_by_login='my_username', 
+#       assigned_to_id=102, 
+#       assigned_to_login='labeler_2',
+#       created_at='2022-10-05T08:42:30.588Z', 
+#       started_at=None, 
+#       finished_at=None,
+#       status='pending',
+#       disabled=False, 
+#       images_count=6, 
+#       finished_images_count=0, 
+#       rejected_images_count=0,
+#       accepted_images_count=0,
+#       classes_to_label=["kiwi"],
+#       tags_to_label=["size", "origin"], 
+#       images_range=(None, None), 
+#       objects_limit_per_image=10, 
+#       tags_limit_per_image=20,
+#       filter_images_by_tags=[], 
+#       include_images_with_tags=[],
+#       exclude_images_with_tags=[]
+#   )
+# ]
 ```
 
 ### Labeling Jobs Statuses
@@ -290,14 +587,23 @@ print(jobs)
 `api.labeling_job.Status.STOPPED` - job was stopped at some stage
 
 ```python
-job_id = 37
+job_id = jobs[-2].id
 api.labeling_job.get_status(job_id)
 # <Status.STOPPED: 'stopped'>
-job_id = 39
+job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
-api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.ON_REVIEW) # it means that labeler is finished 
-print('Labeler finished his work')
-api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.COMPLETED) # it meant that reviewer is finished
-print('Reviewer finished job review')
+api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.ON_REVIEW)
+# labeler has finished annotating
+
+api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.COMPLETED) 
+# reviewer has finished his annotation review
 ```
+
+### Archive Labeling Job
+
+```python
+api.labeling_job.archive(jobs[0].id)
+```
+
+![Archive Labeling Job](https://user-images.githubusercontent.com/48913536/194878794-bc9bd182-ed96-4eb2-afe7-7d78a27236cc.png)
