@@ -10,6 +10,7 @@ api = sly.Api()
 team_id = sly.env.team_id()
 workspace_id = sly.env.workspace_id()
 agent_id = sly.env.agent_id()
+project_id = 12489
 
 
 module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pascal-voc")
@@ -20,7 +21,7 @@ print("Start app: ", module_info.name)
 print("List of available app arguments for developers (like --help in terminal):")
 module_info.arguments_help()
 
-params = module_info.get_arguments(images_project=12489)
+params = module_info.get_arguments(images_project=project_id)
 print("App input arguments with predefined default values:")
 print(json.dumps(params, indent=4))
 
