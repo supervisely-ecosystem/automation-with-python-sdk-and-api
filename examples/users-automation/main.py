@@ -20,6 +20,13 @@ users = api.user.get_list()
 for user in users:
     print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
 
+
+# get UserInfo about yourself
+my_info = api.user.get_my_info()
+print("my login:", my_info.login)
+print("my ID:", my_info.id)
+
+
 # get UserInfo by ID
 user_info = api.user.get_info_by_id(USER_ID)
 print(f"UserInfo by ID: {user_info}")
