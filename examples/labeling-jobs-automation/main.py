@@ -2,15 +2,26 @@ import os
 from dotenv import load_dotenv
 import supervisely as sly
 
+from prepare_project import prepare_project
+
 # for debug
 load_dotenv(os.path.expanduser("~/supervisely.env"))
 load_dotenv("local.env")
 api = sly.Api()
 
-TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
-PROJECT_ID = int(os.environ["CONTEXT_PROJECTID"])
-USER_ID = int(os.environ["CONTEXT_USERID"])
-USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
+# TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
+# PROJECT_ID = int(os.environ["CONTEXT_PROJECTID"])
+# USER_ID = int(os.environ["CONTEXT_USERID"])
+# USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
+
+
+TEAM_ID = 8
+PROJECT_ID = 13487
+USER_ID = 7
+USER_LOGIN = "cxnt"
+
+# populate project meta with classes and tag metas
+prepare_project(api=api, id=PROJECT_ID)
 
 # Step 1. Create and add annotators to the team, before creating Labeling Job
 
@@ -29,7 +40,7 @@ if api.user.get_team_role(labeler_1.id, TEAM_ID) is None:
 if api.user.get_team_role(labeler_2.id, TEAM_ID) is None:
     api.user.add_to_team(labeler_2.id, TEAM_ID, api.role.DefaultRole.ANNOTATOR)
 
-# Step 2. Define project and datasets for labeling job
+# # Step 2. Define project and datasets for labeling job
 project_meta_json = api.project.get_meta(PROJECT_ID)
 project_meta = sly.ProjectMeta.from_json(project_meta_json)
 print(project_meta)
@@ -41,7 +52,7 @@ print(datasets)
 created_jobs = api.labeling_job.create(name='labeler1_lemons_task',
                                        dataset_id=datasets[0].id,
                                        user_ids=[labeler_1.id],
-                                       readme='annotation manual for lemons in markdown format here (optional)',
+                                       readme='annotation manual for fruits in markdown format here (optional)',
                                        description='short description is here (optional)',
                                        classes_to_label=["lemon"])
 print(created_jobs)
@@ -53,13 +64,12 @@ api.labeling_job.stop(created_jobs[0].id)
 created_jobs = api.labeling_job.create(name='labeler2_kiwi_task_with_complex_settings',
                                        dataset_id=datasets[0].id,
                                        user_ids=[labeler_2.id],
-                                       readme='annotation manual for kiwi in markdown format here (optional)',
+                                       readme='annotation manual for fruits in markdown format here (optional)',
                                        description='short description is here (optional)',
                                        classes_to_label=["kiwi"],
                                        objects_limit_per_image=10,
                                        tags_to_label=["size", "origin"],
                                        tags_limit_per_image=20,
-                                       exclude_images_with_tags=["situated"]
                                        )
 print(created_jobs)
 
@@ -85,10 +95,10 @@ jobs = api.labeling_job.get_list(TEAM_ID)
 print(jobs)
 
 # Labeling Jobs Statuses
-job_id = 37
+job_id = jobs[-2].id
 api.labeling_job.get_status(job_id)
 # <Status.STOPPED: 'stopped'>
-job_id = 39
+job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
 api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.ON_REVIEW) # it means that labeler is finished 
