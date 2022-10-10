@@ -11,9 +11,9 @@ team_id = sly.env.team_id()
 workspace_id = sly.env.workspace_id()
 agent_id = sly.env.agent_id()
 project_id = sly.env.project_id()
+app_slug = "supervisely-ecosystem/export-to-pascal-voc"
 
-
-module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pascal-voc")
+module_id = api.app.get_ecosystem_module_id(app_slug)
 # module_id = 83  # or copy module ID of application in ecosystem
 module_info = api.app.get_ecosystem_module_info(module_id)
 print("Start app: ", module_info.name)
