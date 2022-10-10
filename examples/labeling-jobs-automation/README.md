@@ -592,6 +592,7 @@ api.labeling_job.get_status(job_id)
 job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
+
 api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.ON_REVIEW)
 # labeler has finished annotating
 

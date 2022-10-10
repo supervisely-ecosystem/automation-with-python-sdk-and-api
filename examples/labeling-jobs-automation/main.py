@@ -98,10 +98,6 @@ api.labeling_job.get_status(job_id)
 job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
-api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.ON_REVIEW) # it means that labeler is finished 
-print('Labeler finished his work')
-api.labeling_job.wait(job_id, target_status=api.labeling_job.Status.COMPLETED) # it meant that reviewer is finished
-print('Reviewer finished job review')
 
 # Archive Labeling Job
 api.labeling_job.archive(jobs[0].id)
