@@ -9,20 +9,34 @@ api = sly.Api()
 
 USER_ID = int(os.environ["CONTEXT_USERID"])
 TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
-USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
+USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
 
 # list available roles on Supervisely instance
 roles = api.role.get_list()
 print(f"Roles: {roles}")
 
-# list all registered users
-users = api.user.get_list()
-for user in users:
-    print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
+# get UserInfo about yourself
+my_info = api.user.get_my_info()
+print("my login:", my_info.login)
+print("my ID:", my_info.id)
 
 # get UserInfo by ID
 user_info = api.user.get_info_by_id(USER_ID)
 print(f"UserInfo by ID: {user_info}")
+
+# list all team users with corresponding roles
+team = api.team.get_info_by_id(TEAM_ID)
+members = api.user.get_team_members(team.id) 
+print(f"Team members: {members}")
+
+##############################################
+# All methods below require admin permission #
+##############################################
+
+# list all registered users
+users = api.user.get_list()
+for user in users:
+    print("Id: {:<5} Login: {:<25s} logins_count: {:<5}".format(user.id, user.login, user.logins))
 
 # get UserInfo by login
 user_info = api.user.get_info_by_login(USER_LOGIN)
@@ -61,11 +75,6 @@ team = api.team.get_info_by_id(TEAM_ID)
 if api.user.get_team_role(user.id, team.id) is None:
     api.user.add_to_team(user.id, team.id, api.role.DefaultRole.ANNOTATOR) 
     
-# list all team users with corresponding roles
-team = api.team.get_info_by_id(TEAM_ID)
-members = api.user.get_team_members(team.id)
-print(f"Team members: {members}")
-
 # change user role in team
 user = api.user.get_info_by_login('demo_user_451')
 team = api.team.get_info_by_id(TEAM_ID)
