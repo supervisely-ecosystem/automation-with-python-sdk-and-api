@@ -1,6 +1,6 @@
 # Users automation
 
-[Read this tutorial in developer portal.](https://developer.supervise.ly/advanced-user-guide/automate-with-python-sdk-and-api/user-automation)
+[Read this tutorial in developer portal.](https://developer.supervise.ly/advanced-user-guide/automate-with-python-sdk-and-api/users)
 
 ## Introduction
 
