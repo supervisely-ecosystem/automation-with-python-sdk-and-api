@@ -110,6 +110,75 @@ my login: my_username
 my ID: 100
 ```
 
+### Get UserInfo by ID
+
+Get general information about user by ID.
+
+**Note:** requires admin permission if requested ID is not equal to user id
+
+```python
+user_info = api.user.get_info_by_id(USER_ID)
+print(user_info)
+```
+
+Output:
+
+```
+UserInfo(
+  id=100, 
+  login='my_username', 
+  name='user', 
+  email=None, 
+  logins=7, 
+  disabled=False, 
+  last_login='2019-08-02T09:18:09.155Z', 
+  created_at='2019-04-11T10:59:50.472Z', 
+  updated_at='2019-08-04T17:06:39.414Z'
+)
+```
+
+### List all team users with corresponding roles
+
+```python
+team = api.team.get_info_id(TEAM_ID)
+members = api.user.get_team_members(team.id)
+print(f"All members in team: '{team.name}'")
+print(members)
+```
+
+Output:
+
+```
+All members in team 'my_team'
+[
+  UserInfo(
+    id=4, 
+    login='max', 
+    name='max_k', 
+    email=None, 
+    logins=7, 
+    disabled=False,
+    last_login='2019-08-02T09:18:09.155Z',
+    created_at='2019-04-11T10:59:50.472Z',
+    updated_at='2019-08-05T08:42:20.463Z'
+  ),
+
+  ...
+
+  UserInfo(
+    id=31, 
+    login='labeler_03',
+    name='',
+    email=None, 
+    logins=0, 
+    disabled=False,
+    last_login=None,
+    created_at='2019-07-20T15:12:52.779Z',
+    updated_at='2019-07-20T15:12:52.779Z'
+  )
+]
+```
+
 ## Methods that require admin permisssion
 
 ### List all registered users
@@ -132,31 +201,6 @@ Id: 2     Login: supervisely               logins_count: 55
 ...  
 Id: 99    Login: alex                      logins_count: 0    
 Id: 100   Login: my_username               logins_count: 3
-```
-
-### Get UserInfo by ID
-
-Get general information about user by ID.
-
-```python
-user_info = api.user.get_info_by_id(USER_ID)
-print(user_info)
-```
-
-Output:
-
-```
-UserInfo(
-  id=100, 
-  login='my_username', 
-  name='user', 
-  email=None, 
-  logins=7, 
-  disabled=False, 
-  last_login='2019-08-02T09:18:09.155Z', 
-  created_at='2019-04-11T10:59:50.472Z', 
-  updated_at='2019-08-04T17:06:39.414Z'
-)
 ```
 
 ### Get UserInfo by login
@@ -282,48 +326,6 @@ Output:
 Teams of user 'demo_user451':
 [team_id=22] demo_user451              [role_id=1] admin
 [team_id=4] my_team                    [role_id=3] annotator
-```
-
-### List all team users with corresponding roles
-
-```python
-team = api.team.get_info_id(TEAM_ID)
-members = api.user.get_team_members(team.id)
-print(f"All members in team: '{team.name}'")
-print(members)
-```
-
-Output:
-
-```
-All members in team 'my_team'
-[
-  UserInfo(
-    id=4, 
-    login='max', 
-    name='max_k', 
-    email=None, 
-    logins=7, 
-    disabled=False,
-    last_login='2019-08-02T09:18:09.155Z',
-    created_at='2019-04-11T10:59:50.472Z',
-    updated_at='2019-08-05T08:42:20.463Z'
-  ),
-
-  ...
-
-  UserInfo(
-    id=31, 
-    login='labeler_03',
-    name='',
-    email=None, 
-    logins=0, 
-    disabled=False,
-    last_login=None,
-    created_at='2019-07-20T15:12:52.779Z',
-    updated_at='2019-07-20T15:12:52.779Z'
-  )
-]
 ```
 
 ### Change user role in team
