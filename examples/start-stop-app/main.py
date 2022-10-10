@@ -47,20 +47,19 @@ try:
     # or infinite wait until task end
     # api.task.wait(session.task_id)
 
-    # it is also possible to limit execution time
-    # in the example below maximum waiting time will be 5*3=15 seconds
+    # it is also possible to limit maximum waiting time
+    # in the example below maximum waiting time will be 20*3=60 seconds
     api.app.wait(
         session.task_id,
         target_status=api.task.Status.FINISHED,
-        attempts=5,
-        attempt_delay_sec=1,  # TODO: 3
+        attempts=20,
+        attempt_delay_sec=3,
     )
 
 except sly.WaitingTimeExceeded as e:
     print(e)
-    # TODO: how to force stop?
-    # we don't want to wait more, let's stop our zombie task
-    # api.app.stop(session.task_id)
+    # we don't want to wait more, let's stop our long-lived "zombie" task
+    api.app.stop(session.task_id)
 except sly.TaskFinishedWithError as e:
     print(e)
 
