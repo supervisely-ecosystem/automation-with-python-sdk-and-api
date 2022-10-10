@@ -9,7 +9,7 @@ api = sly.Api()
 
 USER_ID = int(os.environ["CONTEXT_USERID"])
 TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
-USER_LOGIN = os.environ(["CONTEXT_USERLOGIN"])
+USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
 
 # list available roles on Supervisely instance
 roles = api.role.get_list()
