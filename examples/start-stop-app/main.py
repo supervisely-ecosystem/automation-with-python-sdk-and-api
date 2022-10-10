@@ -17,19 +17,19 @@ module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pas
 module_info = api.app.get_ecosystem_module_info(module_id)
 print("Start app: ", module_info.name)
 
-print("Help for developers with the list of all available parameters:")
+print("List of available app arguments for developers (like --help in terminal):")
 module_info.arguments_help()
 
 params = module_info.get_arguments(images_project=12489)
 print("App input arguments with predefined default values:")
 print(json.dumps(params, indent=4))
 
-# Let's modify some optional input arguments:
+# Let's modify some optional input arguments for this app:
 params["trainSplitCoef"] = 0.7
 params["pascalContourThickness"] = 2
 
-# @TODO: fix queued
-# Check validation
+# TODO: fix queued
+# TODO: Check validation
 session = api.app.start(
     agent_id=agent_id,
     module_id=module_id,
@@ -42,23 +42,34 @@ print(session)
 
 try:
     # wait until task end or specific task status
-    api.task.wait(session.task_id, target_status=api.task.Status.FINISHED)
+    # api.app.wait(session.task_id, target_status=api.task.Status.FINISHED)
 
-    # or infinite wait
+    # or infinite wait until task end
     # api.task.wait(session.task_id)
 
     # it is also possible to limit execution time
     # in the example below maximum waiting time will be 5*3=15 seconds
-    # api.task.wait(
-    #     session.task_id,
-    #     target_status=api.task.Status.FINISHED,
-    #     wait_attempts=5,
-    #     wait_attempt_timeout_sec=3,
-    # )
+    api.app.wait(
+        session.task_id,
+        target_status=api.task.Status.FINISHED,
+        attempts=5,
+        attempt_delay_sec=1,  # TODO: 3
+    )
 
 except sly.WaitingTimeExceeded as e:
     print(e)
+    # TODO: how to force stop?
+    # we don't want to wait more, let's stop our zombie task
+    # api.app.stop(session.task_id)
 except sly.TaskFinishedWithError as e:
     print(e)
 
-print("Task status: ", api.task.get_status(session.task_id))
+print("Task status: ", api.app.get_status(session.task_id))
+
+
+# let's list all sessions of specific app in our team with additional optional filtering by statuses [finished]
+sessions = api.app.get_sessions(
+    team_id=team_id, module_id=module_id, statuses=[api.task.Status.FINISHED]
+)
+for session_info in sessions:
+    print(session_info)
