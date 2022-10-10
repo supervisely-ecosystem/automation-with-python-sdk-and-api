@@ -28,22 +28,22 @@ code -r .
 
 **Step 4.** change ✅ IDs ✅ in `local.env` file by copying the IDs from Supervisely instance.
 
-Copy your TEAM ID from context menu of the team.
+* Copy your TEAM ID from context menu of the team.
 
-![Team ID](https://user-images.githubusercontent.com/48913536/194830109-e81989e9-6b23-473f-bd94-4ff1e4630447.png)
+    ![Team ID](https://user-images.githubusercontent.com/48913536/194830109-e81989e9-6b23-473f-bd94-4ff1e4630447.png)
 
-```python
-CONTEXT_TEAMID=8                 # ⬅️ change it
-```
+    ```python
+    CONTEXT_TEAMID=8                 # ⬅️ change it
+    ```
 
-You can find your user ID and login at `Start` -> `Team members` page
+* You can find your user ID and login at `Start` -> `Team members` page
 
-![User ID and Login](https://user-images.githubusercontent.com/48913536/194830099-c3cc67d5-fe55-4cf7-b33e-9b1c7e0addf4.png)
+    ![User ID and Login](https://user-images.githubusercontent.com/48913536/194830099-c3cc67d5-fe55-4cf7-b33e-9b1c7e0addf4.png)
 
-```python
-CONTEXT_USERID=7                 # ⬅️ change it
-CONTEXT_USERLOGIN="my_username"  # ⬅️ change it
-```
+    ```python
+    CONTEXT_USERID=7                 # ⬅️ change it
+    CONTEXT_USERLOGIN="my_username"  # ⬅️ change it
+    ```
 
 **Step 5.** Start debugging `examples/user-automation/main.py`&#x20;
 
