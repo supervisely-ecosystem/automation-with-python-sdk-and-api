@@ -10,7 +10,7 @@ api = sly.Api()
 team_id = sly.env.team_id()
 workspace_id = sly.env.workspace_id()
 agent_id = sly.env.agent_id()
-project_id = 12489  # ⬅️ change demo value to your one
+project_id = sly.env.project_id()
 
 
 module_id = api.app.get_ecosystem_module_id("supervisely-ecosystem/export-to-pascal-voc")
