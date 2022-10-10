@@ -1,12 +1,12 @@
 # Labeling Jobs automation
 
-[Read this tutorial in developer portal.](#)
+[Read this tutorial in developer portal.](https://developer.supervise.ly/advanced-user-guide/automate-with-python-sdk-and-api/labeling-jobs-automation)
 
 ## Introduction
 
 In this tutorial you will learn how to manage `Labeling Jobs` using Supervisely SDK and API.
 
-📗 Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api/tree/master/examples/user-automation): source code and demo data.
+📗 Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api/tree/master/examples/labeling-jobs-automation): source code and demo data.
 
 ## How to debug this tutorial
 
@@ -108,7 +108,7 @@ prepare_project(api=api, id=PROJECT_ID)
   </tr>
 </table>
 
-## Labeling jobs
+## Labeling jobs automation
 
 ### Step 1. Create and add annotators to the team, before creating Labeling Job
 
