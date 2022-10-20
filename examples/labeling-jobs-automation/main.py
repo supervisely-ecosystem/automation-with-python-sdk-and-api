@@ -93,5 +93,11 @@ job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
 
+# Change Labeling Job status
+api.labeling_job.set_status(id=job_id, status="completed")
+api.labeling_job.get_status(job_id)
+# <Status.COMPLETED: 'completed'>
+
+
 # Archive Labeling Job
 api.labeling_job.archive(jobs[0].id)
