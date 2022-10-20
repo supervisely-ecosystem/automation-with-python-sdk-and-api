@@ -652,6 +652,19 @@ Output:
 <Status.PENDING: 'pending'>
 ```
 
+If you want to change Labeling Job status you can use `api.labeling_job.set_status()` method
+
+```python
+job_id = jobs[-1].id
+api.labeling_job.set_status(id=job_id, status="completed")
+```
+
+Output:
+
+```
+<Status.COMPLETED: 'completed'>
+```
+
 The following methods will wait until labeling job will change status to the given expected status:
 
 * Labeler has finished annotating
