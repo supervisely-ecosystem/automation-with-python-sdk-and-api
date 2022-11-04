@@ -243,7 +243,39 @@ Output:
       tags_limit_per_image=None,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+        {
+          'reviewStatus': 'none', 
+          'id': 3882702, 
+          'name': 'IMG_8144.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882697, 
+          'name': 'IMG_4451.jpeg'
+        },
+        {
+          'reviewStatus': 'none',
+          'id': 3882698,
+          'name': 'IMG_3861.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882700, 
+          'name': 'IMG_2084.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882701, 
+          'name': 'IMG_1836.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882699,
+          'name': 'IMG_0748.jpeg'
+        }
+      ]
   )
 ]
 ```
@@ -254,7 +286,18 @@ You can stop Labeling Job if you need. Job will become unavailable for labeler.
 api.labeling_job.stop(created_jobs[0].id)
 ```
 
-Create labeling job for labeler 2, and assign class kiwi to label, and also tags "size" and "origin", with objects and tags limit.
+Create labeling job for labeler 2, and assign class kiwi to label, and also tags "size" and "origin", with objects and tags limit. 
+
+You can also specify which images to label by providing images ids.
+
+List all images in dataset and get their IDs.
+As an example we will select only half of images in the dataset.
+
+```python
+dataset_images_infos = api.image.get_list(dataset_id=datasets[0].id)
+dataset_images_ids = [image_info.id for image_info in dataset_images_infos]
+selected_images_ids = dataset_images_ids[:len(dataset_images_ids) // 2]
+```
 
 ```python
 created_jobs = api.labeling_job.create(
@@ -267,6 +310,7 @@ created_jobs = api.labeling_job.create(
                                 objects_limit_per_image=10,
                                 tags_to_label=["size", "origin"],
                                 tags_limit_per_image=20,
+                                images_ids=selected_images_ids
                                 )
 print(created_jobs)
 ```
@@ -307,12 +351,29 @@ Output:
       tags_limit_per_image=20,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+          {
+            'reviewStatus': 'none', 
+            'id': 3882697, 
+            'name': 'IMG_4451.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882698, 
+            'name': 'IMG_3861.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882699, 
+            'name': 'IMG_0748.jpeg'
+          }
+      ]
   )
 ]
 ```
 
-![Labeling Jobs](https://user-images.githubusercontent.com/48913536/194878780-51b08a1d-3b3e-44a3-817b-c52b84ab4ddd.png)
+![Labeling Jobs](https://user-images.githubusercontent.com/48913536/199943931-59f6b180-40e1-4154-8039-5902a3d78328.png)
 
 Get all labeling jobs in a team
 
@@ -357,7 +418,39 @@ Output:
       tags_limit_per_image=None,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+        {
+          'reviewStatus': 'none', 
+          'id': 3882702, 
+          'name': 'IMG_8144.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882697, 
+          'name': 'IMG_4451.jpeg'
+        },
+        {
+          'reviewStatus': 'none',
+          'id': 3882698,
+          'name': 'IMG_3861.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882700, 
+          'name': 'IMG_2084.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882701, 
+          'name': 'IMG_1836.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882699,
+          'name': 'IMG_0748.jpeg'
+        }
+      ]
   ),
   LabelingJobInfo(
       id=2, 
@@ -391,7 +484,24 @@ Output:
       tags_limit_per_image=20,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+          {
+            'reviewStatus': 'none', 
+            'id': 3882697, 
+            'name': 'IMG_4451.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882698, 
+            'name': 'IMG_3861.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882699, 
+            'name': 'IMG_0748.jpeg'
+          }
+      ]
   )
 ]
 ```
@@ -453,7 +563,39 @@ Output
       tags_limit_per_image=None,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+        {
+          'reviewStatus': 'none', 
+          'id': 3882702, 
+          'name': 'IMG_8144.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882697, 
+          'name': 'IMG_4451.jpeg'
+        },
+        {
+          'reviewStatus': 'none',
+          'id': 3882698,
+          'name': 'IMG_3861.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882700, 
+          'name': 'IMG_2084.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882701, 
+          'name': 'IMG_1836.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882699,
+          'name': 'IMG_0748.jpeg'
+        }
+      ]
   ),
   LabelingJobInfo(
       id=2, 
@@ -487,7 +629,24 @@ Output
       tags_limit_per_image=20,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+          {
+            'reviewStatus': 'none', 
+            'id': 3882697, 
+            'name': 'IMG_4451.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882698, 
+            'name': 'IMG_3861.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882699, 
+            'name': 'IMG_0748.jpeg'
+          }
+      ]
   )
 ]
 ```
@@ -535,7 +694,24 @@ Output:
       tags_limit_per_image=20,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+          {
+            'reviewStatus': 'none', 
+            'id': 3882697, 
+            'name': 'IMG_4451.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882698, 
+            'name': 'IMG_3861.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882699, 
+            'name': 'IMG_0748.jpeg'
+          }
+      ]
   )
 ]
 ```
@@ -583,7 +759,39 @@ Output:
       tags_limit_per_image=None,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+        {
+          'reviewStatus': 'none', 
+          'id': 3882702, 
+          'name': 'IMG_8144.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882697, 
+          'name': 'IMG_4451.jpeg'
+        },
+        {
+          'reviewStatus': 'none',
+          'id': 3882698,
+          'name': 'IMG_3861.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none', 
+          'id': 3882700, 
+          'name': 'IMG_2084.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882701, 
+          'name': 'IMG_1836.jpeg'
+        }, 
+        {
+          'reviewStatus': 'none',
+          'id': 3882699,
+          'name': 'IMG_0748.jpeg'
+        }
+      ]
   ),
   LabelingJobInfo(
       id=2, 
@@ -617,7 +825,24 @@ Output:
       tags_limit_per_image=20,
       filter_images_by_tags=[], 
       include_images_with_tags=[],
-      exclude_images_with_tags=[]
+      exclude_images_with_tags=[],
+      entities=[
+          {
+            'reviewStatus': 'none', 
+            'id': 3882697, 
+            'name': 'IMG_4451.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882698, 
+            'name': 'IMG_3861.jpeg'
+          }, 
+          {
+            'reviewStatus': 'none', 
+            'id': 3882699, 
+            'name': 'IMG_0748.jpeg'
+          }
+      ]
   )
 ]
 ```
@@ -652,19 +877,6 @@ Output:
 <Status.PENDING: 'pending'>
 ```
 
-If you want to change Labeling Job status you can use `api.labeling_job.set_status()` method
-
-```python
-job_id = jobs[-1].id
-api.labeling_job.set_status(id=job_id, status="completed")
-```
-
-Output:
-
-```
-<Status.COMPLETED: 'completed'>
-```
-
 The following methods will wait until labeling job will change status to the given expected status:
 
 * Labeler has finished annotating
@@ -685,4 +897,4 @@ The following methods will wait until labeling job will change status to the giv
 api.labeling_job.archive(jobs[0].id)
 ```
 
-![Archive Labeling Job](https://user-images.githubusercontent.com/48913536/194878794-bc9bd182-ed96-4eb2-afe7-7d78a27236cc.png)
+![Archive Labeling Job](https://user-images.githubusercontent.com/48913536/199943585-79f1898d-375c-4f25-bd00-a6cf1bda8418.png)
