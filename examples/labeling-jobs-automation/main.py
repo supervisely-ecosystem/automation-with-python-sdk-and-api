@@ -54,7 +54,10 @@ print(created_jobs)
 # Stop Labeling Job, job will be unavailable for labeler
 api.labeling_job.stop(created_jobs[0].id)
 
-# Labeler 2 will label kiwis on the first dataset
+# Labeler 2 will label kiwis on the selected images in first dataset
+dataset_images_infos = api.image.get_list(dataset_id=datasets[0].id)
+dataset_images_ids = [image_info.id for image_info in dataset_images_infos]
+selected_images_ids = dataset_images_ids[:len(dataset_images_ids) // 2]
 created_jobs = api.labeling_job.create(name='labeler2_kiwi_task_with_complex_settings',
                                        dataset_id=datasets[0].id,
                                        user_ids=[labeler_2.id],
@@ -64,6 +67,7 @@ created_jobs = api.labeling_job.create(name='labeler2_kiwi_task_with_complex_set
                                        objects_limit_per_image=10,
                                        tags_to_label=["size", "origin"],
                                        tags_limit_per_image=20,
+                                       images_ids=selected_images_ids
                                        )
 print(created_jobs)
 
@@ -92,12 +96,6 @@ api.labeling_job.get_status(job_id)
 job_id = jobs[-1].id
 api.labeling_job.get_status(job_id)
 # <Status.PENDING: 'pending'>
-
-# Change Labeling Job status
-api.labeling_job.set_status(id=job_id, status="completed")
-api.labeling_job.get_status(job_id)
-# <Status.COMPLETED: 'completed'>
-
 
 # Archive Labeling Job
 api.labeling_job.archive(jobs[0].id)
