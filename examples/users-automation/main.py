@@ -7,9 +7,9 @@ load_dotenv(os.path.expanduser("~/supervisely.env"))
 load_dotenv("local.env")
 api = sly.Api()
 
-USER_ID = int(os.environ["CONTEXT_USERID"])
-TEAM_ID = int(os.environ["CONTEXT_TEAMID"])
-USER_LOGIN = os.environ["CONTEXT_USERLOGIN"]
+USER_ID = sly.env.user_id()
+TEAM_ID = sly.env.team_id()
+USER_LOGIN = sly.env.user_login()
 
 # list available roles on Supervisely instance
 roles = api.role.get_list()
