@@ -6,7 +6,7 @@ description: This guide explains how to manage application sessions using API
 
 ## Introduction
 
-[Supervisely Ecosystem](https://ecosystem.supervise.ly/) has hundreds of different apps from different categories: from import and data manipulation to neural network training. The huge value for end users is in applications.&#x20;
+[Supervisely Ecosystem](https://ecosystem.supervisely.com/) has hundreds of different apps from different categories: from import and data manipulation to neural network training. The huge value for end users is in applications.&#x20;
 
 However, sometimes it is needed to run multiple apps in a specific order to solve custom task and it may be a bit inconvenient or boring for users. Supervisely SDK allows automate this procedure and build custom pipelines of apps where multiple apps can be run one by one or in parallel in a specific order.
 
@@ -18,7 +18,7 @@ This tutorial demonstrates basic functionality for managing app sessions from Py
 
 ## How to debug this tutorial
 
-**Step 1.** Prepare `~/supervisely.env` file with credentials. [Learn more here.](https://developer.supervise.ly/getting-started/basics-of-authentication#how-to-use-in-python)
+**Step 1.** Prepare `~/supervisely.env` file with credentials. [Learn more here.](https://developer.supervisely.com/getting-started/basics-of-authentication#how-to-use-in-python)
 
 **Step 2.** Clone [repository](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api) with source code and demo data and create [Virtual Environment](https://docs.python.org/3/library/venv.html).
 
