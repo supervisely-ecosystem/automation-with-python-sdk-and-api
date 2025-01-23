@@ -1,6 +1,6 @@
 # Labeling Jobs automation
 
-[Read this tutorial in developer portal.](https://developer.supervise.ly/advanced-user-guide/automate-with-python-sdk-and-api/labeling-jobs)
+[Read this tutorial in developer portal.](https://developer.supervisely.com/advanced-user-guide/automate-with-python-sdk-and-api/labeling-jobs)
 
 ## Introduction
 
@@ -10,7 +10,7 @@ In this tutorial you will learn how to manage `Labeling Jobs` using Supervisely 
 
 ## How to debug this tutorial
 
-**Step 1.** Prepare `~/supervisely.env` file with credentials. [Learn more here.](https://developer.supervise.ly/getting-started/basics-of-authentication#how-to-use-in-python)
+**Step 1.** Prepare `~/supervisely.env` file with credentials. [Learn more here.](https://developer.supervisely.com/getting-started/basics-of-authentication#how-to-use-in-python)
 
 **Step 2.** Clone [repository](https://github.com/supervisely-ecosystem/automation-with-python-sdk-and-api) with source code and demo data and create [Virtual Environment](https://docs.python.org/3/library/venv.html).
 
@@ -36,7 +36,7 @@ code -r .
     CONTEXT_TEAMID=8                 # ⬅️ change it
     ```
 
-* Get **[Lemons (Test)](https://ecosystem.supervise.ly/projects/lemons-test)** project from ecosystem. Lemons (Test) is an example project with 6 images of lemons and kiwi fruits.
+* Get **[Lemons (Test)](https://ecosystem.supervisely.com/projects/lemons-test)** project from ecosystem. Lemons (Test) is an example project with 6 images of lemons and kiwi fruits.
 
     ![Get project from Ecosystem](https://user-images.githubusercontent.com/48913536/194888410-0e505e58-8221-43c0-9d1c-2b86a9eeb922.png)
 
